@@ -1,9 +1,9 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 
-// show Users
+// 
+export const getUsers = async ({query: {showEmail, userId}, res) => {
 
-export const showUserList = async (req, res) => {
   try {
     const users = await User.find();
 
@@ -13,11 +13,9 @@ export const showUserList = async (req, res) => {
         .json({ message: "Es liegen keine Dokumente vor." });
     }
 
-    const showEmail = req.query.showEmail === "true";
-
     const result = users.map((user) => {
       const userData = { userName: user.userName };
-      if (showEmail) {
+      if (req.query.showEmail) {
         userData.email = user.email;
       }
       return userData;
